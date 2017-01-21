@@ -26,6 +26,19 @@ var api = new ParseServer({
 // If you wish you require them, you can set them as options in the initialization above:
 // javascriptKey, restAPIKey, dotNetKey, clientKey
 
+var ParseDashboard = require('parse-dashboard');
+
+var dashboard = new ParseDashboard({
+  "apps": [
+    {
+      "serverURL": "https://noisehubapp.herokuapp.com/parse",
+      "appId": "d9V5wXHp9Zj5u90y3yttNK0tYbBizRnMf2igQvS1",
+      "masterKey": "RWvT9litMDAxqISVDfRLxqV4Qc1vBmWV25FsFcJl",
+      "appName": "NoiseHub"
+    }
+  ]
+});
+
 var app = express();
 
 // Serve static assets from the /public folder
@@ -34,6 +47,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
+app.use('/dashboard', dashboard);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
